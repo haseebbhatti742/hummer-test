@@ -7,7 +7,7 @@ var partyIdArray = [];
 getParty();
 function getParty() {
     var name = "";
-    fetch("/gate_pass/getParty", {
+    fetch("/test/gate_pass/getParty", {
         method: "POST",
         body: JSON.stringify({ name }),
         headers: new Headers({
@@ -37,7 +37,7 @@ function getGatePass(searchId){
             addListener();
         }
     };
-    xhttp.open("GET", "/gate_pass/getGatePass/"+searchId, true);
+    xhttp.open("GET", "/test/gate_pass/getGatePass/"+searchId, true);
     xhttp.send();
 }
 
@@ -68,7 +68,7 @@ function getCashVoucher(searchId){
 
 function getContact(party_id){
     //party_id = document.getElementById("gate_pass_party_id").value
-    fetch("/gate_pass/get-contact", {
+    fetch("/test/gate_pass/get-contact", {
         method: "POST",
         body: JSON.stringify({ party_id }),
         headers: new Headers({
@@ -94,7 +94,7 @@ function submitForm(){
 
 function editGatePassWithoutVoucher(){
     if(addGatePass()){
-        fetch("/gate_pass/edit-gate-pass", {
+        fetch("/test/gate_pass/edit-gate-pass", {
             method: "POST",
             body: JSON.stringify({ "gate_pass_type":gate_pass_type, 
                                     "gate_pass_number":gate_pass_number, 
@@ -112,7 +112,7 @@ function editGatePassWithoutVoucher(){
         }).then(data => data.json()).then(data => {
             if (data.status == "ok") {
                 toastr.success("Gate Pass Edited")
-                window.location.replace("/home")
+                window.location.replace("/test/home")
             } else if (data.status == "error") {
                 toastr.error("Error: "+data.errorMessage)
             }
@@ -122,7 +122,7 @@ function editGatePassWithoutVoucher(){
 
 function editGatePassWithVoucher(){
     if(addGatePass() && getCashVoucher()){
-        fetch("/gate_pass/edit-gate-pass", {
+        fetch("/test/gate_pass/edit-gate-pass", {
             method: "POST",
             body: JSON.stringify({ "gate_pass_type":gate_pass_type, 
                                     "gate_pass_number":gate_pass_number, 
@@ -291,7 +291,7 @@ function show_cv_form() {
             document.getElementById("cv_form").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "/gate_pass/cv_form", true);
+    xhttp.open("GET", "/test/gate_pass/cv_form", true);
     xhttp.send();
 }
 

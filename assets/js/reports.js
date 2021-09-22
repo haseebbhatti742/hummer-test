@@ -26,7 +26,7 @@ function searchReport(){
         if(report_date_from=="") report_date_from="null"
         if(report_date_to=="") report_date_to="null"
 
-        url = "/reports/get_report/"+party_id+"/"+report_type+"/"+report_commodity+"/"+report_date_from+"/"+report_date_to
+        url = "/test/reports/get_report/"+party_id+"/"+report_type+"/"+report_commodity+"/"+report_date_from+"/"+report_date_to
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -53,7 +53,7 @@ getParty();
 autocomplete(document.getElementById("party_name"), partyNameArray);
 function getParty() {
     var name = "";
-    fetch("/gate_pass/getParty", {
+    fetch("/test/gate_pass/getParty", {
         method: "POST",
         body: JSON.stringify({ name }),
         headers: new Headers({

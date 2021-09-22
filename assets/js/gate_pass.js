@@ -14,7 +14,7 @@ getParty();
 autocomplete(document.getElementById("gate_pass_party_id"), partyNameArray);
 function getParty() {
     var name = "";
-    fetch("/gate_pass/getParty", {
+    fetch("/test/gate_pass/getParty", {
         method: "POST",
         body: JSON.stringify({ name }),
         headers: new Headers({
@@ -52,7 +52,7 @@ function addNewParty(){
         document.getElementById("new_party_name_error").innerHTML = ""
         document.getElementById("new_party_contact_error").innerHTML = ""
         
-        fetch("/gate_pass/add-party", {
+        fetch("/test/gate_pass/add-party", {
             method: "POST",
             body: JSON.stringify({ party_name, party_contact }),
             headers: new Headers({
@@ -76,7 +76,7 @@ function addNewParty(){
 
 function getContact(party_id){
     //party_id = document.getElementById("gate_pass_party_id").value
-    fetch("/gate_pass/get-contact", {
+    fetch("/test/gate_pass/get-contact", {
         method: "POST",
         body: JSON.stringify({ party_id }),
         headers: new Headers({
@@ -113,7 +113,7 @@ function show_cv_form() {
             document.getElementById("cv_form").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "/gate_pass/cv_form", true);
+    xhttp.open("GET", "/test/gate_pass/cv_form", true);
     xhttp.send();
 }
 
@@ -152,7 +152,7 @@ inputUnitAmount.addEventListener('input', (event) => {
 function submitWithoutVoucher(){
     if(getGatePass()){
         document.getElementById("btn2").disabled = true
-        fetch("/gate_pass/add-gate-pass", {
+        fetch("/test/gate_pass/add-gate-pass", {
             method: "POST",
             body: JSON.stringify({ 
                                     "gp_number_manual":gp_number_manual,                                        
@@ -171,7 +171,7 @@ function submitWithoutVoucher(){
         }).then(data => data.json()).then(data => {
             if (data.status == "ok") {
                 toastr.success("Gate Pass Added")
-                window.location.replace("/gate_pass/view-gate-pass/"+data.gp_number)
+                window.location.replace("/test/gate_pass/view-gate-pass/"+data.gp_number)
             } else if (data.status == "error") {
                 toastr.error("Error: "+data.errorMessage)
                 document.getElementById("btn2").disabled = false
@@ -227,7 +227,7 @@ function getGatePass(){
 }
 
 function isGpManualExists(gp_number_manual){
-    fetch("/gate_pass/check-gp-manual", {
+    fetch("/test/gate_pass/check-gp-manual", {
         method: "POST",
         body: JSON.stringify({ gp_number_manual }),
         headers: new Headers({
@@ -280,7 +280,7 @@ function getCashVoucher(){
 
 function submitWithVoucher(){
     if(getGatePass() && getCashVoucher()){
-        fetch("/gate_pass/add-gate-pass", {
+        fetch("/test/gate_pass/add-gate-pass", {
             method: "POST",
             body: JSON.stringify({ "gate_pass_type":gate_pass_type, 
                                     "gate_pass_date":gate_pass_date, 
@@ -300,7 +300,7 @@ function submitWithVoucher(){
         }).then(data => data.json()).then(data => {
             if (data.status == "ok") {
                 toastr.success("Gate Pass Added")
-                window.location.replace("/gate_pass")
+                window.location.replace("/test/gate_pass")
             } else if (data.status == "error") {
                 toastr.error("Error: "+data.errorMessage)
                 document.getElementById("btn2").disabled = false

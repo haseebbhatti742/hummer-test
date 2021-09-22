@@ -7,7 +7,7 @@ getParty();
 autocomplete(document.getElementById("cash_voucher_party_id"), partyNameArray);
 function getParty() {
     var name = "";
-    fetch("/gate_pass/getParty", {
+    fetch("/test/gate_pass/getParty", {
         method: "POST",
         body: JSON.stringify({ name }),
         headers: new Headers({
@@ -28,7 +28,7 @@ function getParty() {
 
 function getContact(party_id){
   //party_id = document.getElementById("gate_pass_party_id").value
-  fetch("/gate_pass/get-contact", {
+  fetch("/test/gate_pass/get-contact", {
       method: "POST",
       body: JSON.stringify({ party_id }),
       headers: new Headers({
@@ -57,7 +57,7 @@ function addCashVoucher(){
     cv_details = document.getElementById("cash_voucher_details").value
     cv_commodity = document.getElementById("cv_commodity").value
 
-    fetch("/advance_cash_voucher/add", {
+    fetch("/test/advance_cash_voucher/add", {
         method: "POST",
         body: JSON.stringify({ cash_voucher_number_manual,party_id, cv_date, cv_type, cv_commodity, cv_contact, cv_payment_type, cv_name, cv_signature, cv_amount, cv_details }),
         headers: new Headers({
@@ -66,7 +66,7 @@ function addCashVoucher(){
     }).then(data => data.json()).then(data => {
         if (data.status == "ok") {
             toastr.success("Cash Voucher Added")
-            window.location.replace("/cash_voucher/view-cash-voucher/"+data.cv_number)
+            window.location.replace("/test/cash_voucher/view-cash-voucher/"+data.cv_number)
         } else if (data.status == "error") {
             toastr.error("Error: "+data.errorMessage)
             document.getElementById("btn2").disabled = false

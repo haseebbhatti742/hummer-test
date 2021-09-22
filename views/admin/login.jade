@@ -79,7 +79,7 @@ head
       function login(){
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        fetch("/login", {
+        fetch("/test/login", {
             method: "POST",
             body: JSON.stringify({ username, password }),
             headers: new Headers({
@@ -87,7 +87,7 @@ head
             }),
         }).then(data => data.json()).then(data => {
             if (data.status == "yes") {
-              window.location.replace("/home");
+              window.location.replace("/test/home");
             } else if (data.status == "no") {
               toastr.error("No User Found")
             } else if (data.status == "error") {

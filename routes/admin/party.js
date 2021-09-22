@@ -4,7 +4,7 @@ const app = require('../../app')
 
 router.get('/add-party', (req, res, next) => {
     if (req.session.username == undefined) {
-        res.redirect('/');
+        res.redirect('/test');
     } else if (req.session.username != undefined && req.session.type == "admin") {
         res.locals.title = 'Party'
         res.locals.subtitle = 'Add Party'

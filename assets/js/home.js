@@ -21,13 +21,13 @@ function getGatePass(searchId){
             document.getElementById("gatePassDiv").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "/gate_pass/getGatePass/"+searchId, true);
+    xhttp.open("GET", "/test/gate_pass/getGatePass/"+searchId, true);
     xhttp.send();
 }
 
 // function getGatePass(searchId){
 //     document.getElementById("gatePassDiv").innerHTML = ""
-//     fetch("/home/getGatePass", {
+//     fetch("/test/home/getGatePass", {
 //         method: "POST",
 //         body: JSON.stringify({ searchId:searchId }),
 //         headers: new Headers({

@@ -6,7 +6,7 @@ let filter_party,filter_report_type,filter_commodity,filter_date
 
 router.get('/', (req, res) => {
     if (req.session.username == undefined) {
-        res.redirect('/');
+        res.redirect('/test');
     } else if (req.session.username != undefined && req.session.type == "admin") {
         res.locals.title = 'Reports';
         res.locals.subtitle = 'Reports';

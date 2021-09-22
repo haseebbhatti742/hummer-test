@@ -17,7 +17,7 @@ function searchLedger(){
         if(date_to == "")date_to = "null"
           
         document.getElementById("party_name_error").innerHTML = ""
-        url = "/ledger/get_general_ledger/"+party_id+"/"+date_from+"/"+date_to
+        url = "/test/ledger/get_general_ledger/"+party_id+"/"+date_from+"/"+date_to
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
@@ -43,7 +43,7 @@ getParty();
 autocomplete(document.getElementById("party_name"), partyNameArray);
 function getParty() {
     var name = "";
-    fetch("/gate_pass/getParty", {
+    fetch("/test/gate_pass/getParty", {
         method: "POST",
         body: JSON.stringify({ name }),
         headers: new Headers({

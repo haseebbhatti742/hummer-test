@@ -10,7 +10,7 @@ function addNewParty(){
         document.getElementById("new_party_name_error").innerHTML = ""
         document.getElementById("new_party_contact_error").innerHTML = ""
         
-        fetch("/party/add", {
+        fetch("/test/party/add", {
             method: "POST",
             body: JSON.stringify({ party_name, party_contact }),
             headers: new Headers({

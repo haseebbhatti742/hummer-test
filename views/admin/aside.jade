@@ -2,49 +2,49 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
     // Sidebar
     .sidebar
         // Brand Logo
-        a.brand-link(href='/')
+        a.brand-link(href='/test')
             //img.brand-image.img-circle.elevation-3(src='/images/logo.png' alt='AdminLTE Logo' style='opacity: .8')
-            span.brand-text.font-weight-light HUMMER
+            span.brand-text.font-weight-light Scrap Godown System
         //username
-        a.brand-link(href='/')
+        a.brand-link(href='/test')
             span.brand-text.font-weight-light  #{session.name}
         // Sidebar Menu
         nav.mt-2
             ul.nav.nav-pills.nav-sidebar.flex-column(data-widget='treeview' role='menu' data-accordion='false')
                 li.nav-item
                     if title == "Home"
-                        a.nav-link.active(href='/home')
+                        a.nav-link.active(href='/test/home')
                             i.nav-icon.fas.fa-home
                             p Dashboard
                     else
-                        a.nav-link(href='/home')
+                        a.nav-link(href='/test/home')
                             i.nav-icon.fas.fa-home
                             p Dashboard 
                 li.nav-item
                     if title == "Party"
-                        a.nav-link.active(href='/party/add-party')
+                        a.nav-link.active(href='/test/party/add-party')
                             i.nav-icon.fas.fa-user-plus
                             p Add Party
                     else
-                        a.nav-link(href='/party/add-party')
+                        a.nav-link(href='/test/party/add-party')
                             i.nav-icon.fas.fa-user-plus
                             p Add Party 
                 li.nav-item
                     if title == "Gate Pass"
-                        a.nav-link.active(href='/gate_pass')
+                        a.nav-link.active(href='/test/gate_pass')
                             i.nav-icon.fas.fa-id-badge
                             p Gate Pass
                     else
-                        a.nav-link(href='/gate_pass')
+                        a.nav-link(href='/test/gate_pass')
                             i.nav-icon.fas.fa-id-badge
                             p Gate Pass
                 li.nav-item    
                     if title == "Cash Voucher"
-                        a.nav-link.active(href='/cash_voucher')
+                        a.nav-link.active(href='/test/cash_voucher')
                             i.nav-icon.fas.fa-file-contract
                             p Cash Voucher
                     else
-                        a.nav-link(href='/cash_voucher')
+                        a.nav-link(href='/test/cash_voucher')
                             i.nav-icon.fas.fa-file-contract
                             p Cash Voucher
                 li.nav-item
@@ -55,11 +55,11 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
                                 i.fas.fa-angle-left.right
                         ul.nav.nav-treeview
                             li.nav-item.ml-2
-                                a.nav-link(href='/advance_cash_voucher')
+                                a.nav-link(href='/test/advance_cash_voucher')
                                     i.fas.fa-file-invoice-dollar &nbsp;&nbsp;
                                     p Add New
                             li.nav-item.ml-2
-                                a.nav-link(href='/advance_cash_voucher/view_all')
+                                a.nav-link(href='/test/advance_cash_voucher/view_all')
                                     i.fa.fa-list-alt &nbsp;&nbsp;
                                     p View All
                     else
@@ -69,28 +69,28 @@ aside.main-sidebar.sidebar-dark-primary.elevation-4
                                 i.fas.fa-angle-left.right
                         ul.nav.nav-treeview
                             li.nav-item.ml-2
-                                a.nav-link(href='/advance_cash_voucher')
+                                a.nav-link(href='/test/advance_cash_voucher')
                                     i.fas.fa-file-invoice-dollar &nbsp;&nbsp;
                                     p Add New
                             li.nav-item.ml-2
-                                a.nav-link(href='/advance_cash_voucher/view_all')
+                                a.nav-link(href='/test/advance_cash_voucher/view_all')
                                     i.fa.fa-list-alt &nbsp;&nbsp;
                                     p View All
                 li.nav-item    
                     if title == "Ledger"
-                        a.nav-link.active(href='/ledger/general')
+                        a.nav-link.active(href='/test/ledger/general')
                             i.nav-icon.fas.fa-file
                             p Ledger
                     else
-                        a.nav-link(href='/ledger/general')
+                        a.nav-link(href='/test/ledger/general')
                             i.nav-icon.fas.fa-file
                             p Ledger
                 li.nav-item    
                     if title == "Reports"
-                        a.nav-link.active(href='/reports')
+                        a.nav-link.active(href='/test/reports')
                             i.nav-icon.fas.fa-file
                             p Reports
                     else
-                        a.nav-link(href='/reports')
+                        a.nav-link(href='/test/reports')
                             i.nav-icon.fas.fa-file
                             p Reports

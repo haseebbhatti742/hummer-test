@@ -40,7 +40,7 @@ app1.use(passport.session());
 //   host: "localhost",
 //   user: "root",
 //   password: "",
-//   database: "hummer_db",
+//   database: "hummer_test",
 // });
 
 var conn = mysql.createPool({
@@ -70,68 +70,21 @@ const reportsRoute = require("./routes/admin/reports");
 const partyRoute = require("./routes/admin/party");
 const errorRoute = require("./routes/admin/error");
 
-app1.use("/", loginRoute);
-app1.use("/home", homeRoute);
-app1.use("/gate_pass", gatePassRoute);
-app1.use("/cash_voucher", cashVoucherRoute);
-app1.use("/advance_cash_voucher", advanceCashVoucherRoute);
-app1.use("/ledger", ledgerRoute);
-app1.use("/reports", reportsRoute);
-app1.use("/party", partyRoute);
-app1.use("/error", errorRoute);
+app1.use("/test", loginRoute);
+app1.use("/test/home", homeRoute);
+app1.use("/test/gate_pass", gatePassRoute);
+app1.use("/test/cash_voucher", cashVoucherRoute);
+app1.use("/test/advance_cash_voucher", advanceCashVoucherRoute);
+app1.use("/test/ledger", ledgerRoute);
+app1.use("/test/reports", reportsRoute);
+app1.use("/test/party", partyRoute);
+app1.use("/test/error", errorRoute);
 
-app1.use("/logout", function (req, res) {
+app1.use("/test/logout", function (req, res) {
   req.session.destroy(function (err) {
-    res.redirect("/");
+    res.redirect("/test");
   });
 });
-
-// var XLSX = require('xlsx')
-// app1.use("/read-excel", function(req,res){
-//   var workbook = XLSX.readFile('HUMMER1.xlsx');
-//   var worksheet = workbook.Sheets[workbook.SheetNames[0]];
-//   const allData = [];
-//   let data = {};
-
-//   for(let cell in worksheet){
-//     const cellAsString = cell.toString();
-
-//     if(cellAsString[1] !== 'r' && cellAsString !== 'm' && cellAsString[1] > 1){
-//       if(cellAsString[0] === 'A')
-//         data.date = worksheet[cell].v;
-//       else if(cellAsString[0] === 'B')
-//         data.type = worksheet[cell].v;
-//       else if(cellAsString[0] === 'C')
-//         data.quantity = worksheet[cell].v;
-//       else if(cellAsString[0] === 'D')
-//         data.unit = worksheet[cell].v;
-//       else if(cellAsString[0] === 'E')
-//         data.unit_price = worksheet[cell].v;
-//       else if(cellAsString[0] === 'F')
-//         data.total_amount = worksheet[cell].v;
-//       else if(cellAsString[0] === 'G')
-//         data.details = worksheet[cell].v;
-//       else if(cellAsString[0] === 'H')
-//         data.part_name = worksheet[cell].v;
-//       else if(cellAsString[0] === 'I')
-//         data.commodity = worksheet[cell].v;
-//       else if(cellAsString[0] === 'J')
-//         data.balance = worksheet[cell].v;
-//       else if(cellAsString[0] === 'K')
-//         data.entry_code = worksheet[cell].v;
-//       else if(cellAsString[0] === 'L')
-//         data.cv_number = worksheet[cell].v;
-//       else if(cellAsString[0] === 'M'){
-//         data.gp_number = worksheet[cell].v;
-//         allData.push(data);
-//         data = {};
-//       }
-//     }
-//   }
-
-//   console.log(allData)
-//   res.send(allData)
-// })
 
 module.exports.app = app1;
 module.exports.conn = conn;

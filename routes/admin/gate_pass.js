@@ -5,7 +5,7 @@ const ledger = require("../admin/ledger")
 
 router.get('/', (req, res) => {
     if (req.session.username == undefined) {
-        res.redirect('/');
+        res.redirect('/test');
     } else if (req.session.username != undefined && req.session.type == "admin") {
         res.locals.title = 'Gate Pass';
         res.locals.subtitle = 'Gate Pass';
@@ -30,7 +30,7 @@ router.post("/add-gate-pass", function(req,res){
 
 router.get("/view-gate-pass/:gp_number", function(req,res){
     if (req.session.username == undefined) {
-        res.redirect('/');
+        res.redirect('/test');
     } else if (req.session.username != undefined && req.session.type == "admin") {
         res.locals.title = "Gate Pass"
         res.locals.subtitle = "View Gate Pass"
@@ -39,7 +39,7 @@ router.get("/view-gate-pass/:gp_number", function(req,res){
         app.conn.query(query, function(err,result){
             if(err){
                 res.locals.errorMessage = err.message
-                res.redirect("/error")
+                res.redirect("/test/error")
             } else if (result.length == 0){
                 res.render("admin/view-gate-pass", {status:"error", errorMessage:"No Record Found"})
             } else {
@@ -55,7 +55,7 @@ router.get("/view-gate-pass/:gp_number", function(req,res){
                 app.conn.query("select * from gp_entries where gp_number="+dataset.gate_pass.gp_number, function(err,result2){
                     if(err){
                         res.locals.errorMessage = err.message
-                        res.redirect("/error")
+                        res.redirect("/test/error")
                     } else {
                         dataset.gp_entries = result2
                         res.render("admin/view-gate-pass", {status:"ok", dataset:dataset})

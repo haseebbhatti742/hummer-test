@@ -4,7 +4,7 @@ const app = require('../../app')
 
 router.get('/', (req, res) => {
     if (req.session.username == undefined) {
-        res.redirect('/');
+        res.redirect('/test');
     } else if (req.session.username != undefined && req.session.type == "admin") {
         res.locals.title = 'Cash Voucher';
         res.locals.subtitle = 'Cash Voucher';
