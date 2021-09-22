@@ -45,9 +45,9 @@ app1.use(passport.session());
 
 var conn = mysql.createPool({
   host: "localhost",
-  user: "hummjyxk_hummer",
-  password: "hummergrw@123",
-  database: "hummjyxk_hummer_db",
+  user: "hummjyxk_test",
+  password: "hummer_test@123",
+  database: "hummjyxk_test",
 });
 
 var conn; 
