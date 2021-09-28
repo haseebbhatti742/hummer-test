@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
         res.locals.title = 'Cash Voucher';
         res.locals.subtitle = 'Cash Voucher';
 
-        var query = "select cv_number_test from cash_voucher order by cv_number desc limit 1";
+        var query = "select cv_number from cash_voucher_test order by cv_number desc limit 1";
         app.conn.query(query, (err,result) => {
             if(err){
                 res.send({error: err})
