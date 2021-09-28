@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
         res.locals.title = 'Advance Cash Voucher';
         res.locals.subtitle = 'Cash Voucher';
 
-        var query = "select cv_number from cash_voucher order by cv_number desc limit 1";
+        var query = "select cv_number from cash_voucher_test order by cv_number desc limit 1";
         app.conn.query(query, (err,result) => {
             if(err){
                 res.send({error: err})
@@ -30,7 +30,7 @@ router.get('/view_all', (req, res) => {
         res.locals.title = 'Advance Cash Voucher';
         res.locals.subtitle = 'View All';
 
-        var query = "select * from cash_voucher join party_info on cash_voucher.party_id=party_info.party_id where cv_advance='true' order by cv_number desc";
+        var query = "select * from cash_voucher_test join party_info on cash_voucher_test.party_id=party_info_test.party_id where cv_advance='true' order by cv_number desc";
         app.conn.query(query, (err,result) => {
             if(err){
                 res.render('admin/view_all_advance', {status:"error", errorMessage:err.message});
@@ -72,7 +72,7 @@ router.post('/add', async (req, res) => {
 
 function checkCV(cash_voucher_number_manual){
     return new Promise(function(resolve,reject){
-        app.conn.query("select * from cash_voucher where cv_number_manual='"+cash_voucher_number_manual+"'", function(err,result){
+        app.conn.query("select * from cash_voucher_test where cv_number_manual='"+cash_voucher_number_manual+"'", function(err,result){
             if(err){
                 console.log(err.message)
             } else if(result.length == 0){
@@ -116,7 +116,7 @@ function addCashVoucher(cash_voucher_number_manual,cv_commodity,party_id,cv_date
         ledgerData.l_type = "Recovery"
     }
     
-    query1 = "insert into cash_voucher (cv_number_manual,cv_commodity,party_id, cv_date, cv_type, cv_payment_type, cv_name, cv_signature, cv_amount, cv_details,cv_contact,cv_advance) values ('"+cash_voucher_number_manual+"','"+cv_commodity+"','"+party_id+"', '"+cv_date+"', '"+cv_type+"', '"+cv_payment_type+"', '"+cv_name+"', '"+cv_signature+"', '"+cv_amount+"', '"+cv_details+"', '"+cv_contact+"','true')"
+    query1 = "insert into cash_voucher_test (cv_number_manual,cv_commodity,party_id, cv_date, cv_type, cv_payment_type, cv_name, cv_signature, cv_amount, cv_details,cv_contact,cv_advance) values ('"+cash_voucher_number_manual+"','"+cv_commodity+"','"+party_id+"', '"+cv_date+"', '"+cv_type+"', '"+cv_payment_type+"', '"+cv_name+"', '"+cv_signature+"', '"+cv_amount+"', '"+cv_details+"', '"+cv_contact+"','true')"
     app.conn.query(query1, async function(err,result1){
         if(err){
             res.status(200).json({status: "error", errorMessage:err.message})
@@ -164,7 +164,7 @@ function addToAccounts(party_id, cv_amount, cv_payment_type,res){
 
 function addIntoLedgerWithCV(data){
     return new Promise(function(resolve,reject){
-        query1 = "select l_balance from ledger where party_id='"+data.party_id+"' order by l_id desc limit 1"
+        query1 = "select l_balance from ledger_test where party_id='"+data.party_id+"' order by l_id desc limit 1"
         balance = 0;
         app.conn.query(query1, function(err,result1){
             if(err){
@@ -177,7 +177,7 @@ function addIntoLedgerWithCV(data){
 
             data.l_balance = parseFloat(data.l_balance) + parseFloat(balance)
             
-            query1 = "insert into ledger(cv_number_manual,party_id,cv_number,l_commodity,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date,l_type) values('"+data.cv_number_manual+"','"+data.party_id+"','"+data.cv_number+"','"+data.l_commodity+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate+"', '"+data.l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"','"+data.l_type+"')"
+            query1 = "insert into ledger_test(cv_number_manual,party_id,cv_number,l_commodity,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date,l_type) values('"+data.cv_number_manual+"','"+data.party_id+"','"+data.cv_number+"','"+data.l_commodity+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate+"', '"+data.l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"','"+data.l_type+"')"
             app.conn.query(query1, function(err,result){
                 if(err){
                     resolve({status:"error", errorMessage:err.message})

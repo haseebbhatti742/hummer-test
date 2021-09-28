@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.post("/login", function(req, res) {
-    var query = "SELECT * from admin where (username = '" + req.body.username + "') AND password= '" + req.body.password + "'";
+    var query = "SELECT * from admin_test where (username = '" + req.body.username + "') AND password= '" + req.body.password + "'";
     app.conn.query(query, function(err, result) {
         if (err) {
             res.status(200).json({ status: "error", errorMessage: err.message })

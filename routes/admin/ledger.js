@@ -39,7 +39,7 @@ router.get("/get_general_ledger/:party_id/:date_from/:date_to", function(req,res
     dataset.total_credit = 0
     dataset.balance = 0
 
-    query1 = "select * from party_info where party_id = '"+party_id+"'"
+    query1 = "select * from party_info_test where party_id = '"+party_id+"'"
     app.conn.query(query1, function(err,result1){
         if(err){
             res.render("admin/general-ledger", {status:"error", errorMessage:err.message})
@@ -48,7 +48,7 @@ router.get("/get_general_ledger/:party_id/:date_from/:date_to", function(req,res
         } else {
             dataset.party_info = result1[0]
 
-            query2 = "select * from ledger where l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
+            query2 = "select * from ledger_test where l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
             app.conn.query(query2, async function(err,result2){
                 if(err){
                     res.render("admin/general-ledger", {status:"error", errorMessage:err.message})
@@ -95,7 +95,7 @@ router.get("/get_general_ledger/:party_id/:date_from/:date_to", function(req,res
 
 function addIntoLedger(data){
     return new Promise(function(resolve,reject){
-        query1 = "select l_balance from ledger where party_id='"+data.party_id+"' order by l_id desc limit 1"
+        query1 = "select l_balance from ledger_test where party_id='"+data.party_id+"' order by l_id desc limit 1"
         balance = 0;
         app.conn.query(query1, function(err,result1){
             if(err){
@@ -107,7 +107,7 @@ function addIntoLedger(data){
             }
 
             data.l_balance = data.l_balance + balance
-            query2 = "insert into ledger(party_id,gp_number,cv_number,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date)"+
+            query2 = "insert into ledger_test(party_id,gp_number,cv_number,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date)"+
             +"values('"+data.party_id+"','"+data.gp_number+"','"+data.cv_number+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate,l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"')"
             
             app.conn.query(query2, function(err,result2){
@@ -123,7 +123,7 @@ function addIntoLedger(data){
 
 function addIntoLedgerWithGP(data){
     return new Promise(function(resolve,reject){
-        query1 = "select l_balance from ledger where party_id='"+data.party_id+"' order by l_id desc limit 1"
+        query1 = "select l_balance from ledger_test where party_id='"+data.party_id+"' order by l_id desc limit 1"
         balance = 0;
         app.conn.query(query1, function(err,result1){
             if(err){
@@ -135,7 +135,7 @@ function addIntoLedgerWithGP(data){
             }
 
             data.l_balance = data.l_balance + balance
-            query = "insert into ledger(party_id,gp_number,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date)"+
+            query = "insert into ledger_test(party_id,gp_number,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date)"+
             +"values('"+data.party_id+"','"+data.gp_number+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate,l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"')"
             
             app.conn.query(query1, function(err,result){
@@ -151,7 +151,7 @@ function addIntoLedgerWithGP(data){
 
 function addIntoLedgerWithCV(data){
     return new Promise(function(resolve,reject){
-        query1 = "select l_balance from ledger where party_id='"+data.party_id+"' order by l_id desc limit 1"
+        query1 = "select l_balance from ledger_test where party_id='"+data.party_id+"' order by l_id desc limit 1"
         balance = 0;
         app.conn.query(query1, function(err,result1){
             if(err){
@@ -164,7 +164,7 @@ function addIntoLedgerWithCV(data){
 
             data.l_balance = data.l_balance + balance
             
-            query = "insert into ledger(party_id,cv_number,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date)"+
+            query = "insert into ledger_test(party_id,cv_number,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date)"+
             +"values('"+data.party_id+"','"+data.cv_number+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate,l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"')"
             
             app.conn.query(query1, function(err,result){
@@ -180,7 +180,7 @@ function addIntoLedgerWithCV(data){
 
 function getTotalExpenses(party_id, date_from, date_to){
     return new Promise(function(resolve,reject){
-        query = "select * from ledger where l_debit=0 and l_credit!=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
+        query = "select * from ledger_test where l_debit=0 and l_credit!=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
         app.conn.query(query, function(err,result){
             if(err) console.log(err.message)
             else if(result.length==0) resolve(0)
@@ -202,7 +202,7 @@ function getTotalExpenses(party_id, date_from, date_to){
 
 function getTotalRecoveries(party_id, date_from, date_to){
     return new Promise(function(resolve,reject){
-        query = "select * from ledger where l_debit!=0 and l_credit=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
+        query = "select * from ledger_test where l_debit!=0 and l_credit=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
         app.conn.query(query, function(err,result){
             if(err) console.log(err.message)
             else if(result.length==0) resolve(0)
@@ -225,7 +225,7 @@ function getTotalRecoveries(party_id, date_from, date_to){
 
 function getTotalBalance(party_id, date_from, date_to){
     return new Promise(function(resolve,reject){
-        query = "select l_balance as balance from ledger where l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"' order by l_id desc limit 1"
+        query = "select l_balance as balance from ledger_test where l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"' order by l_id desc limit 1"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].balance)}
@@ -236,7 +236,7 @@ function getTotalBalance(party_id, date_from, date_to){
 
 function getTotalWeightsIn(party_id, date_from, date_to){
     return new Promise(function(resolve,reject){
-        query = "select ifnull(sum(l_seller_weight),0) as total_weight_in from ledger where l_debit=0 and l_credit!=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
+        query = "select ifnull(sum(l_seller_weight),0) as total_weight_in from ledger_test where l_debit=0 and l_credit!=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].total_weight_in)}
@@ -247,7 +247,7 @@ function getTotalWeightsIn(party_id, date_from, date_to){
 
 function getTotalWeightsOut(party_id, date_from, date_to){
     return new Promise(function(resolve,reject){
-        query = "select ifnull(sum(l_seller_weight),0) as total_weight_out from ledger where l_debit!=0 and l_credit=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
+        query = "select ifnull(sum(l_seller_weight),0) as total_weight_out from ledger_test where l_debit!=0 and l_credit=0 and l_date>='"+date_from+"' AND l_date<='"+date_to+"' AND party_id = '"+party_id+"'"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].total_weight_out)}

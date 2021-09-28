@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
         res.locals.title = 'Gate Pass';
         res.locals.subtitle = 'Gate Pass';
 
-        var query_for_gp_number = "select gp_number from gate_pass order by gp_number desc limit 1";
+        var query_for_gp_number = "select gp_number from gate_pass_test order by gp_number desc limit 1";
         app.conn.query(query_for_gp_number, (err,result) => {
             if(err){
                 res.send({error: err})
@@ -35,7 +35,7 @@ router.get("/view-gate-pass/:gp_number", function(req,res){
         res.locals.title = "Gate Pass"
         res.locals.subtitle = "View Gate Pass"
         dataset = []
-        query = "select * from gate_pass join party_info on gate_pass.gp_party_id=party_info.party_id where gp_number='"+req.params.gp_number+"' OR gp_number_manual='"+req.params.gp_number+"'"
+        query = "select * from gate_pass_test join party_info_test on gate_pass_test.gp_party_id=party_info_test.party_id where gp_number='"+req.params.gp_number+"' OR gp_number_manual='"+req.params.gp_number+"'"
         app.conn.query(query, function(err,result){
             if(err){
                 res.locals.errorMessage = err.message
@@ -52,7 +52,7 @@ router.get("/view-gate-pass/:gp_number", function(req,res){
                 }
 
                 dataset.gate_pass.gp_date = date2.date+"/"+date2.month+"/"+date2.year
-                app.conn.query("select * from gp_entries where gp_number="+dataset.gate_pass.gp_number, function(err,result2){
+                app.conn.query("select * from gp_entries_test where gp_number="+dataset.gate_pass.gp_number, function(err,result2){
                     if(err){
                         res.locals.errorMessage = err.message
                         res.redirect("/test/error")
@@ -67,7 +67,7 @@ router.get("/view-gate-pass/:gp_number", function(req,res){
 })
 
 router.get('/cv_form', (req, res) => {
-    var query = "select cv_number from cash_voucher order by cv_number desc limit 1";
+    var query = "select cv_number from cash_voucher_test order by cv_number desc limit 1";
     app.conn.query(query, (err,result) => {
         if(err){
             res.send({error: err})
@@ -81,7 +81,7 @@ router.get('/cv_form', (req, res) => {
 });
 
 router.post("/get-contact", function(req,res){
-    app.conn.query("select party_contact from party_info where party_id="+req.body.party_id, function(err,result){
+    app.conn.query("select party_contact from party_info_test where party_id="+req.body.party_id, function(err,result){
         if(err){
             res.status(200).json({status:"error", errorMessage:err.message})
         } else if(result.length == 0 || result[0].party_contact == undefined || result[0].party_contact == null){
@@ -121,7 +121,7 @@ async function addGatePass(req,res){
     if(isGp == true){
         res.status(200).json({status:"error", errorMessage:"Manual Gate Pass Number Already Exists"})
     } else {
-        var query1 = "insert into gate_pass(gp_number_manual,gp_party_id,gp_type,gp_date,gp_contact, gp_total, gp_payment_type) values('"+gp_number_manual+"','"+gate_pass_party_id+"','"+gp_type+"','"+gp_date+"','"+gp_contact+"','"+gate_pass_grand_total+"','"+gp_payment_type+"')";
+        var query1 = "insert into gate_pass_test(gp_number_manual,gp_party_id,gp_type,gp_date,gp_contact, gp_total, gp_payment_type) values('"+gp_number_manual+"','"+gate_pass_party_id+"','"+gp_type+"','"+gp_date+"','"+gp_contact+"','"+gate_pass_grand_total+"','"+gp_payment_type+"')";
         app.conn.query(query1, async function(err,result){
             if(err){
                 res.status(200).json({status:"error", errorMessage:err.message})
@@ -176,7 +176,7 @@ async function addGatePass(req,res){
 
 function insertGpEntry(gp_number, gp_commodity, gp_unit, gp_quantity, gp_unit_amount, gp_total_amount, gp_details){
     return new Promise(function(resolve, reject){
-        let query2 = "insert into gp_entries(gp_number, gp_commodity, gp_unit, gp_quantity, gp_buyer_weight, gp_unit_amount, gp_total_amount, gp_details) values('"+gp_number+"','"+gp_commodity+"','"+gp_unit+"','"+gp_quantity+"', '0', '"+gp_unit_amount+"','"+gp_total_amount+"','"+gp_details+"')"
+        let query2 = "insert into gp_entries_test(gp_number, gp_commodity, gp_unit, gp_quantity, gp_buyer_weight, gp_unit_amount, gp_total_amount, gp_details) values('"+gp_number+"','"+gp_commodity+"','"+gp_unit+"','"+gp_quantity+"', '0', '"+gp_unit_amount+"','"+gp_total_amount+"','"+gp_details+"')"
         app.conn.query(query2, function(err, result2){
             if(err) {
                 console.log("Error2: "+err.message)
@@ -196,7 +196,7 @@ router.post('/getParty', async function(req, res) {
 function getParty() {
     var parties = [];
     return new Promise(function(resolve, reject) {
-        app.conn.query('select party_id, party_name from party_info', function(err,result) {
+        app.conn.query('select party_id, party_name from party_info_test', function(err,result) {
             if(err){
                 console.log(err.message)
             } else {
@@ -214,7 +214,7 @@ function getParty() {
 
 function addIntoLedgerWithGP(data){
     return new Promise(function(resolve,reject){
-        query1 = "select l_balance from ledger where party_id='"+data[0].party_id+"' order by l_id desc limit 1"
+        query1 = "select l_balance from ledger_test where party_id='"+data[0].party_id+"' order by l_id desc limit 1"
         balance = 0;
         app.conn.query(query1, function(err,result1){
             if(err){
@@ -228,7 +228,7 @@ function addIntoLedgerWithGP(data){
             data[0].l_balance = parseFloat(data[0].l_balance) + parseFloat(balance)
             for(let i=0; i<=data.length; i++){   
                 if(i<data.length){
-                    query2 = "insert into ledger(party_id,gp_number,gp_number_manual,l_commodity,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date,l_type) values('"+data[i].party_id+"','"+data[i].gp_number+"','"+data[i].gp_number_manual+"','"+data[i].l_commodity+"','"+data[i].l_description+"','"+data[i].l_seller_weight+"','"+data[i].l_buyer_weight+"','"+data[i].l_rate+"','"+data[i].l_debit+"','"+data[i].l_credit+"','"+data[0].l_balance+"','"+data[i].l_date+"','"+data[i].l_type+"')"
+                    query2 = "insert into ledger_test(party_id,gp_number,gp_number_manual,l_commodity,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date,l_type) values('"+data[i].party_id+"','"+data[i].gp_number+"','"+data[i].gp_number_manual+"','"+data[i].l_commodity+"','"+data[i].l_description+"','"+data[i].l_seller_weight+"','"+data[i].l_buyer_weight+"','"+data[i].l_rate+"','"+data[i].l_debit+"','"+data[i].l_credit+"','"+data[0].l_balance+"','"+data[i].l_date+"','"+data[i].l_type+"')"
                     app.conn.query(query2, function(err,result){
                         if(err){
                             console.log(err.message)
@@ -245,7 +245,7 @@ function addIntoLedgerWithGP(data){
 
 function checkGp(gp_number_manual){
     return new Promise(function(resolve,reject){
-        app.conn.query("select * from gate_pass where gp_number_manual='"+gp_number_manual+"'", function(err,result){
+        app.conn.query("select * from gate_pass_test where gp_number_manual='"+gp_number_manual+"'", function(err,result){
             if(err){
                 console.log(err.message)
             } else if(result.length == 0){
@@ -259,7 +259,7 @@ function checkGp(gp_number_manual){
 
 router.post("/check-gp-manual", function(req,res){
     return new Promise(function(resolve,reject){
-        app.conn.query("select * from gate_pass where gp_number_manual='"+req.body.gp_number_manual+"'", function(err,result){
+        app.conn.query("select * from gate_pass_test where gp_number_manual='"+req.body.gp_number_manual+"'", function(err,result){
             if(err){
                 console.log(err.message)
             } else if(result.length == 0){

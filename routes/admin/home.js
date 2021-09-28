@@ -29,7 +29,7 @@ router.get('/', async function(req, res){
 
 function getTotalExpenses(){
     return new Promise(function(resolve,reject){
-        query = "select * from ledger where l_debit=0 and l_credit!=0"
+        query = "select * from ledger_test where l_debit=0 and l_credit!=0"
         app.conn.query(query, function(err,result){
             if(err) console.log(err.message)
             else if(result.length==0) resolve(0)
@@ -51,7 +51,7 @@ function getTotalExpenses(){
 
 function getTotalRecoveries(){
     return new Promise(function(resolve,reject){
-        query = "select * from ledger where l_debit!=0 and l_credit=0"
+        query = "select * from ledger_test where l_debit!=0 and l_credit=0"
         app.conn.query(query, function(err,result){
             if(err) console.log(err.message)
             else if(result.length==0) resolve(0)
@@ -73,7 +73,7 @@ function getTotalRecoveries(){
 
 function getTotalBalance(){
     return new Promise(function(resolve,reject){
-        query = "select l_balance as balance from ledger order by l_id desc limit 1"
+        query = "select l_balance as balance from ledger_test order by l_id desc limit 1"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].balance)}
@@ -84,7 +84,7 @@ function getTotalBalance(){
 
 function getTotalWeightsIn(){
     return new Promise(function(resolve,reject){
-        query = "select ifnull(sum(l_seller_weight),0) as total_weight_in from ledger where l_debit=0 and l_credit!=0"
+        query = "select ifnull(sum(l_seller_weight),0) as total_weight_in from ledger_test where l_debit=0 and l_credit!=0"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].total_weight_in)}
@@ -95,7 +95,7 @@ function getTotalWeightsIn(){
 
 function getTotalWeightsOut(){
     return new Promise(function(resolve,reject){
-        query = "select ifnull(sum(l_seller_weight),0) as total_weight_out from ledger where l_debit!=0 and l_credit=0"
+        query = "select ifnull(sum(l_seller_weight),0) as total_weight_out from ledger_test where l_debit!=0 and l_credit=0"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].total_weight_out)}

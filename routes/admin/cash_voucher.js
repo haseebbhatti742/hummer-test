@@ -9,7 +9,7 @@ router.get('/', (req, res) => {
         res.locals.title = 'Cash Voucher';
         res.locals.subtitle = 'Cash Voucher';
 
-        var query = "select cv_number from cash_voucher order by cv_number desc limit 1";
+        var query = "select cv_number_test from cash_voucher order by cv_number desc limit 1";
         app.conn.query(query, (err,result) => {
             if(err){
                 res.send({error: err})
@@ -27,7 +27,7 @@ router.get("/view-cash-voucher/:cv_number", function(req,res){
     res.locals.title = "Cash Voucher"
     res.locals.subtitle = "View Cash Voucher"
     dataset = []
-    app.conn.query("select * from cash_voucher join party_info on cash_voucher.party_id=party_info.party_id where cv_number='"+req.params.cv_number+"' or cv_number_manual='"+req.params.cv_number+"'", function(err,result){
+    app.conn.query("select * from cash_voucher_test join party_info_test on cash_voucher_test.party_id=party_info_test.party_id where cv_number='"+req.params.cv_number+"' or cv_number_manual='"+req.params.cv_number+"'", function(err,result){
         if(err){
             res.locals.errorMessage = err.message
             res.redirect("/error")
@@ -71,7 +71,7 @@ router.post('/add', async function (req, res) {
 
 function checkCV(cash_voucher_number_manual){
     return new Promise(function(resolve,reject){
-        app.conn.query("select * from cash_voucher where cv_number_manual='"+cash_voucher_number_manual+"'", function(err,result){
+        app.conn.query("select * from cash_voucher_test where cv_number_manual='"+cash_voucher_number_manual+"'", function(err,result){
             if(err){
                 console.log(err.message)
             } else if(result.length == 0){
@@ -115,7 +115,7 @@ function addCashVoucher(cash_voucher_number_manual,cv_commodity,party_id,cv_date
         ledgerData.l_type = "Recovery"
     }
 
-    query1 = "insert into cash_voucher (cv_number_manual,cv_commodity, party_id, cv_date, cv_type, cv_payment_type, cv_name, cv_signature, cv_amount, cv_details,cv_contact,cv_advance) values ('"+cash_voucher_number_manual+"','"+cv_commodity+"','"+party_id+"', '"+cv_date+"', '"+cv_type+"', '"+cv_payment_type+"', '"+cv_name+"', '"+cv_signature+"', '"+cv_amount+"', '"+cv_details+"', '"+cv_contact+"','false')"
+    query1 = "insert into cash_voucher_test (cv_number_manual,cv_commodity, party_id, cv_date, cv_type, cv_payment_type, cv_name, cv_signature, cv_amount, cv_details,cv_contact,cv_advance) values ('"+cash_voucher_number_manual+"','"+cv_commodity+"','"+party_id+"', '"+cv_date+"', '"+cv_type+"', '"+cv_payment_type+"', '"+cv_name+"', '"+cv_signature+"', '"+cv_amount+"', '"+cv_details+"', '"+cv_contact+"','false')"
     app.conn.query(query1, async function(err,result1){
         if(err){
             res.status(200).json({status: "error", errorMessage:err.message})
@@ -162,7 +162,7 @@ function addToAccounts(party_id, cv_amount, cv_payment_type,res){
 
 function addIntoLedgerWithCV(data){
     return new Promise(function(resolve,reject){
-        query1 = "select l_balance from ledger where party_id='"+data.party_id+"' order by l_id desc limit 1"
+        query1 = "select l_balance from ledger_test where party_id='"+data.party_id+"' order by l_id desc limit 1"
         balance = 0;
         app.conn.query(query1, function(err,result1){
             if(err){
@@ -175,7 +175,7 @@ function addIntoLedgerWithCV(data){
 
             data.l_balance = parseFloat(data.l_balance) + parseFloat(balance)
             
-            query2 = "insert into ledger(party_id,cv_number,cv_number_manual,l_commodity,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date,l_type) values('"+data.party_id+"','"+data.cv_number+"','"+data.cv_number_manual+"','"+data.l_commodity+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate+"', '"+data.l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"','"+data.l_type+"')"
+            query2 = "insert into ledger_test(party_id,cv_number,cv_number_manual,l_commodity,l_description,l_seller_weight,l_buyer_weight,l_rate,l_debit,l_credit,l_balance,l_date,l_type) values('"+data.party_id+"','"+data.cv_number+"','"+data.cv_number_manual+"','"+data.l_commodity+"','"+data.l_description+"','"+data.l_seller_weight+"','"+data.l_buyer_weight+"','"+data.l_rate+"', '"+data.l_debit+"','"+data.l_credit+"','"+data.l_balance+"','"+data.l_date+"','"+data.l_type+"')"
             
             app.conn.query(query2, function(err,result){
                 if(err){

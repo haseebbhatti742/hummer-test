@@ -42,9 +42,9 @@ router.get("/get_report/:party_id/:report_type/:report_commodity/:report_date_fr
     if(report_commodity != ""){ filter_commodity = " l_commodity='"+report_commodity+"' AND " }
     filter_date = " l_date>='"+report_date_from+"' AND l_date<='"+report_date_to+"'"
     
-    let party_join = " join party_info on ledger.party_id=party_info.party_id "
+    let party_join = " join party_info_test on ledger_test.party_id=party_info_test.party_id "
 
-    query = "select * from ledger "+party_join+" where "+filter_party+filter_report_type+filter_commodity+filter_date
+    query = "select * from ledger_test "+party_join+" where "+filter_party+filter_report_type+filter_commodity+filter_date
     app.conn.query(query, async function(err,result){
         if(err) { res.render("admin/reports-page", {status:"error", erroeMessage: err.message}) }
         else if(result.length == 0){
@@ -76,7 +76,7 @@ router.get("/get_report/:party_id/:report_type/:report_commodity/:report_date_fr
 
 function getTotalExpenses(){
     return new Promise(function(resolve,reject){
-        query = "select * from ledger where l_debit=0 and l_credit!=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
+        query = "select * from ledger_test where l_debit=0 and l_credit!=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
         app.conn.query(query, function(err,result){
             if(err) console.log(err.message)
             else if(result.length==0) resolve(0)
@@ -98,7 +98,7 @@ function getTotalExpenses(){
 
 function getTotalRecoveries(){
     return new Promise(function(resolve,reject){
-        query = "select * from ledger where l_debit!=0 and l_credit=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
+        query = "select * from ledger_test where l_debit!=0 and l_credit=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
         app.conn.query(query, function(err,result){
             if(err) console.log(err.message)
             else if(result.length==0) resolve(0)
@@ -120,7 +120,7 @@ function getTotalRecoveries(){
 
 function getTotalBalance(){
     return new Promise(function(resolve,reject){
-        query = "select l_balance as balance from ledger where "+filter_party+filter_report_type+filter_commodity+filter_date+" order by l_id desc limit 1"
+        query = "select l_balance as balance from ledger_test where "+filter_party+filter_report_type+filter_commodity+filter_date+" order by l_id desc limit 1"
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].balance)}
@@ -131,7 +131,7 @@ function getTotalBalance(){
 
 function getTotalWeightsIn(){
     return new Promise(function(resolve,reject){
-        query = "select ifnull(sum(l_seller_weight),0) as total_weight_in from ledger where l_debit=0 and l_credit!=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
+        query = "select ifnull(sum(l_seller_weight),0) as total_weight_in from ledger_test where l_debit=0 and l_credit!=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].total_weight_in)}
@@ -142,7 +142,7 @@ function getTotalWeightsIn(){
 
 function getTotalWeightsOut(){
     return new Promise(function(resolve,reject){
-        query = "select ifnull(sum(l_seller_weight),0) as total_weight_out from ledger where l_debit!=0 and l_credit=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
+        query = "select ifnull(sum(l_seller_weight),0) as total_weight_out from ledger_test where l_debit!=0 and l_credit=0 and "+filter_party+filter_report_type+filter_commodity+filter_date
         app.conn.query(query, function(err,result){
             if(err) {console.log(err.message)}
             else if(result.length>0) {resolve(result[0].total_weight_out)}
