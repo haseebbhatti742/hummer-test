@@ -30,7 +30,7 @@ router.get('/view_all', (req, res) => {
         res.locals.title = 'Advance Cash Voucher';
         res.locals.subtitle = 'View All';
 
-        var query = "select * from cash_voucher_test join party_info on cash_voucher_test.party_id=party_info_test.party_id where cv_advance='true' order by cv_number desc";
+        var query = "select * from cash_voucher_test join party_info_test on cash_voucher_test.party_id=party_info_test.party_id where cv_advance='true' order by cv_number desc";
         app.conn.query(query, (err,result) => {
             if(err){
                 res.render('admin/view_all_advance', {status:"error", errorMessage:err.message});
